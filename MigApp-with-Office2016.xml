@@ -6508,7 +6508,7 @@
     <role role="Settings">
       <detection>
         <conditions>
-          <condition>MigXmlHelper.DoesObjectExist("Registry","%HklmWowSoftware%\Mozilla\Mozilla Firefox 3.*\bin [PathToExe]")</condition>
+          <condition>MigXmlHelper.DoesObjectExist("Registry","%HklmWowSoftware%\Mozilla\Firefox\")</condition>
         </conditions>
       </detection>
       <rules context="User">
@@ -6651,8 +6651,7 @@
       </destinationCleanup>
       <detection>
         <conditions>
-          <condition>MigXmlHelper.DoesObjectExist("File","%CSIDL_LOCAL_APPDATA%\Google\Chrome\Application [chrome.exe]")</condition>
-          <condition>MigXmlHelper.DoesObjectExist("File","%CSIDL_LOCAL_APPDATA%\Google\Chrome\Application\1.*")</condition>
+          <condition>MigXmlHelper.DoesObjectExist("Registry","%HklmWowSoftware%\Google\Chrome\")</condition>
         </conditions>
       </detection>
       <rules context="User">
