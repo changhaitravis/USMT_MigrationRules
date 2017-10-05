@@ -1,0 +1,735 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<migration urlid="http://www.microsoft.com/migration/1.0/migxmlext/migapp">
+	
+<!-- Office 15 to Office 16 x86 Settings Upgrade Rule -->
+    <rules name="Office15to16SettingsUpgrade" context="System">
+      <include>
+        <objectSet>
+          <pattern type="Registry">%HklmWowSoftware%\Microsoft\Office\16.0\Common\Migration\%OFFICEPROGRAM% [UpgradeVersion]</pattern>
+          <pattern type="Registry">%HklmWowSoftware%\Microsoft\Office\16.0\Common\Migration\%OFFICEPROGRAM% [Lang]</pattern>
+          <pattern type="Registry">HKLM\Software\Microsoft\Office\15.0\Common\LanguageResources [SKULanguage]</pattern>
+        </objectSet>
+      </include>
+      <addObjects>
+        <object>
+          <location type="Registry">%HklmWowSoftware%\Microsoft\Office\16.0\Common\Migration\%OFFICEPROGRAM% [UpgradeVersion]</location>
+          <attributes>DWORD</attributes>
+          <bytes>0E000000</bytes>
+        </object>
+        <object>
+          <location type="Registry">%HklmWowSoftware%\Microsoft\Office\16.0\Common\Migration\%OFFICEPROGRAM% [Lang]</location>
+          <attributes>DWORD</attributes>
+          <bytes>00000000</bytes>
+        </object>
+      </addObjects>
+      <contentModify script="MigSysHelper.ConvertToOfficeLangID('Registry','HKCU\Software\Microsoft\Office\15.0\Common\LanguageResources [SKULanguage]','HKLM\Software\Microsoft\Office\15.0\Common\LanguageResources [SKULanguage]')">
+        <objectSet>
+          <pattern type="Registry">%HklmWowSoftware%\Microsoft\Office\16.0\Common\Migration\%OFFICEPROGRAM% [Lang]</pattern>
+        </objectSet>
+      </contentModify>
+      <locationModify script="MigXmlHelper.RelativeMove('%HklmWowSoftware%','%HklmWowSoftware%')">
+        <objectSet>
+          <pattern type="Registry">%HklmWowSoftware%\Microsoft\Office\16.0\Common\Migration\%OFFICEPROGRAM% [UpgradeVersion]</pattern>
+          <pattern type="Registry">%HklmWowSoftware%\Microsoft\Office\16.0\Common\Migration\%OFFICEPROGRAM% [Lang]</pattern>
+        </objectSet>
+      </locationModify>
+    </rules>
+	
+	<!-- Office 16 to Office 16 x86 Settings Upgrade Rule -->
+    <rules name="Office16to16SettingsMigrate" context="System">
+      <include>
+        <objectSet>
+          <pattern type="Registry">%HklmWowSoftware%\Microsoft\Office\16.0\Common\Migration\%OFFICEPROGRAM% [UpgradeVersion]</pattern>
+          <pattern type="Registry">%HklmWowSoftware%\Microsoft\Office\16.0\Common\Migration\%OFFICEPROGRAM% [Lang]</pattern>
+          <pattern type="Registry">HKLM\Software\Microsoft\Office\16.0\Common\LanguageResources [SKULanguage]</pattern>
+        </objectSet>
+      </include>
+      <addObjects>
+        <object>
+          <location type="Registry">%HklmWowSoftware%\Microsoft\Office\16.0\Common\Migration\%OFFICEPROGRAM% [UpgradeVersion]</location>
+          <attributes>DWORD</attributes>
+          <bytes>0E000000</bytes>
+        </object>
+        <object>
+          <location type="Registry">%HklmWowSoftware%\Microsoft\Office\16.0\Common\Migration\%OFFICEPROGRAM% [Lang]</location>
+          <attributes>DWORD</attributes>
+          <bytes>00000000</bytes>
+        </object>
+      </addObjects>
+      <contentModify script="MigSysHelper.ConvertToOfficeLangID('Registry','HKCU\Software\Microsoft\Office\16.0\Common\LanguageResources [SKULanguage]','HKLM\Software\Microsoft\Office\16.0\Common\LanguageResources [SKULanguage]')">
+        <objectSet>
+          <pattern type="Registry">%HklmWowSoftware%\Microsoft\Office\16.0\Common\Migration\%OFFICEPROGRAM% [Lang]</pattern>
+        </objectSet>
+      </contentModify>
+      <locationModify script="MigXmlHelper.RelativeMove('%HklmWowSoftware%','%HklmWowSoftware%')">
+        <objectSet>
+          <pattern type="Registry">%HklmWowSoftware%\Microsoft\Office\16.0\Common\Migration\%OFFICEPROGRAM% [UpgradeVersion]</pattern>
+          <pattern type="Registry">%HklmWowSoftware%\Microsoft\Office\16.0\Common\Migration\%OFFICEPROGRAM% [Lang]</pattern>
+        </objectSet>
+      </locationModify>
+    </rules>
+	
+	<!-- Microsoft Office 16 -->
+  <component context="UserAndSystem"  type="Application">
+    <displayName _locID="migapp.office16">Microsoft Office 16</displayName>
+    <environment name="GlobalEnv"/>
+    <environment name="GlobalEnvX64"/>
+    <environment>
+      <variable name="OFFICEVERSION">
+        <text>16.0</text>
+      </variable>
+    </environment>
+    <role role="Container">
+      <detection name="Access" />
+      <detection name="Access_x64" />
+      <detection name="Excel" />
+      <detection name="Excel_x64" />
+      <detection name="OneNote" />
+      <detection name="OneNote_x64" />
+      <detection name="Outlook" />
+      <detection name="Outlook_x64" />
+      <detection name="PowerPoint" />
+      <detection name="PowerPoint_x64" />
+      <detection name="Project16" />
+      <detection name="Project16_x64" />
+      <detection name="Publisher" />
+      <detection name="Publisher_x64" />
+      <detection name="Visio16" />
+      <detection name="Visio16_x64" />
+      <detection name="Word" />
+      <detection name="Word_x64" />
+      <detection name="InfoPath" />
+      <detection name="InfoPath_x64" />
+      <detection name="SharePointDesigner" />
+      <detection name="SharePointDesigner_x64" />
+      <detection name="Lync16" />
+      <detection name="Lync16_x64" />
+
+      <!-- Office 16 Common Settings -->
+      <component context="UserAndSystem" type="Application" hidden="TRUE">
+        <displayName _locID="migapp.office16common">Office 16 Common Settings</displayName>
+        <role role="Settings">
+          <!-- For Office 16 -->
+          <rules>
+            <destinationCleanup>
+              <objectSet>
+                <!--<pattern type="Registry">HKCU\software\Microsoft\Office\16.0\Common [Theme]</pattern>-->
+                <pattern type="Registry">HKCU\Software\Microsoft\Office\16.0\Common\Internet\* [*]</pattern>
+                <pattern type="Registry">HKCU\Software\Microsoft\Office\16.0\Common\Toolbars\* [*]</pattern>
+              </objectSet>
+            </destinationCleanup>
+            <include filter='MigXmlHelper.IgnoreIrrelevantLinks()'>
+              <objectSet>
+                <pattern type="Registry">HKCU\Software\Microsoft\Office\16.0\Common\* [*]</pattern>
+                <pattern type="Registry">HKCU\Software\Microsoft\Office\16.0\User Settings\* [*]</pattern>
+                <pattern type="Registry">HKCU\Software\Microsoft\Office\Common\* [*]</pattern>
+                <pattern type="Registry">HKCU\Software\Microsoft\Shared Tools\* [*]</pattern>
+                <pattern type="File">%CSIDL_APPDATA%\Microsoft\Office\* [*]</pattern>
+                <pattern type="File">%CSIDL_APPDATA%\Microsoft\Templates\* [*]</pattern>
+                <pattern type="File">%CSIDL_LOCAL_APPDATA%\Microsoft\Office\16.0\* [*]</pattern>
+                <!-- Quick access toolbars -->
+                <pattern type="File">%CSIDL_LOCAL_APPDATA%\Microsoft\Office [*.qat]</pattern>
+                <!-- Extract custom dictionaries and related files -->
+                <pattern type="File">%CSIDL_APPDATA%\Microsoft\Proof\* [*]</pattern>
+                <pattern type="File">%CSIDL_APPDATA%\Microsoft\UProof\* [*]</pattern>
+                <content filter="MigXmlHelper.ExtractSingleFile(NULL, NULL)">
+                  <objectSet>
+                    <pattern type="Registry">HKCU\Software\Microsoft\Shared Tools\Proofing Tools\*\Custom Dictionaries [*]</pattern>
+                  </objectSet>
+                </content>
+                <!-- Web Extensibility Framework (WEF) -->
+                <pattern type="Registry">HKCU\Software\Microsoft\Office\16.0\WEF\* [*]</pattern>
+              </objectSet>
+            </include>
+            <exclude>
+              <objectSet>
+                <pattern type="Registry">HKCU\Software\Microsoft\Office\16.0\Common\Internet\NetworkStatusCache\* [*]</pattern>
+                <pattern type="Registry">HKCU\Software\Microsoft\Office\16.0\Common\Open Find\* [*]</pattern>
+              </objectSet>
+            </exclude>
+            <merge script="MigXmlHelper.SourcePriority()">
+              <objectSet>
+                <pattern type="File">%CSIDL_APPDATA%\Microsoft\Office\* [*]</pattern>
+                <pattern type="File">%CSIDL_LOCAL_APPDATA%\Microsoft\Office\16.0\* [*]</pattern>
+                <pattern type="File">%CSIDL_LOCAL_APPDATA%\Microsoft\Office [*.qat]</pattern>
+                <!-- Custom dictionaries -->
+                <pattern type="File">%CSIDL_APPDATA%\Microsoft\Proof\* [*]</pattern>
+                <pattern type="File">%CSIDL_APPDATA%\Microsoft\UProof\* [*]</pattern>
+                <content filter="MigXmlHelper.ExtractSingleFile(NULL, NULL)">
+                  <objectSet>
+                    <pattern type="Registry">HKCU\Software\Microsoft\Shared Tools\Proofing Tools\*\Custom Dictionaries [*]</pattern>
+                  </objectSet>
+                </content>
+              </objectSet>
+            </merge>
+          </rules>
+        </role>
+      </component>
+      <!-- Microsoft Office Access 16 -->
+      <component context="UserAndSystem" type="Application">
+        <displayName _locID="migapp.office16access">Microsoft Office Access 16</displayName>
+        <environment>
+          <variable name="OFFICEPROGRAM">
+            <text>Access</text>
+          </variable>
+        </environment>
+        <role role="Settings">
+          <detection name="Access" />
+          <detection name="Access_x64" />
+          <rules>
+            <destinationCleanup>
+              <objectSet>
+                <pattern type="Registry">HKCU\Software\Microsoft\Office\16.0\Access\Settings\* [*] </pattern>
+              </objectSet>
+            </destinationCleanup>
+            <include>
+              <objectSet>
+                <pattern type="Registry">HKCU\Software\Microsoft\Office\16.0\Access\* [*]</pattern>
+                <pattern type="File">%CSIDL_APPDATA%\Microsoft\Access\* [*]</pattern>
+              </objectSet>
+            </include>
+            <merge script="MigXmlHelper.SourcePriority()">
+              <objectSet>
+                <pattern type="File">%CSIDL_APPDATA%\Microsoft\Access\* [*]</pattern>
+              </objectSet>
+            </merge>
+          </rules>
+          <rules>
+            <include>
+              <objectSet>
+                <pattern type="File">%CSIDL_APPDATA%\Microsoft\Office [Access16.pip]</pattern>
+                <pattern type="File">%CSIDL_APPDATA%\* [*.mdw]</pattern>
+                <pattern type="Registry">HKCU\Software\Microsoft\Office\Access\* [*]</pattern>
+                <pattern type="Registry">HKCU\Software\Microsoft\Office\16.0\Access\* [*]</pattern>
+                <pattern type="Registry">HKCU\Software\Microsoft\Office\16.0\CMA\* [*]</pattern>
+                <pattern type="Registry">HKCU\Software\Microsoft\Office\16.0\Common\Toolbars\Settings\ [Microsoft Access]</pattern>
+                <pattern type="Registry">HKCU\Software\Microsoft\Office\16.0\Access\File MRU\* [*]</pattern>
+              </objectSet>
+            </include>
+            <exclude>
+              <objectSet>
+                <pattern type="Registry">HKCU\Software\Microsoft\Office\16.0\Access\Settings [MRU1]</pattern>
+                <pattern type="Registry">HKCU\Software\Microsoft\Office\16.0\Access\Settings [MRU2]</pattern>
+                <pattern type="Registry">HKCU\Software\Microsoft\Office\16.0\Access\Settings [MRU3]</pattern>
+                <pattern type="Registry">HKCU\Software\Microsoft\Office\16.0\Access\Settings [MRU4]</pattern>
+                <pattern type="Registry">HKCU\Software\Microsoft\Office\16.0\Access\Settings [MRU5]</pattern>
+                <pattern type="Registry">HKCU\Software\Microsoft\Office\16.0\Access\Settings [MRU6]</pattern>
+                <pattern type="Registry">HKCU\Software\Microsoft\Office\16.0\Access\Settings [MRU7]</pattern>
+                <pattern type="Registry">HKCU\Software\Microsoft\Office\16.0\Access\Settings [MRU8]</pattern>
+                <pattern type="Registry">HKCU\Software\Microsoft\Office\16.0\Access\Settings [MRU9]</pattern>
+                <pattern type="Registry">HKCU\Software\Microsoft\Office\16.0\Access\Settings [MRUFlags1]</pattern>
+                <pattern type="Registry">HKCU\Software\Microsoft\Office\16.0\Access\Settings [MRUFlags2]</pattern>
+                <pattern type="Registry">HKCU\Software\Microsoft\Office\16.0\Access\Settings [MRUFlags3]</pattern>
+                <pattern type="Registry">HKCU\Software\Microsoft\Office\16.0\Access\Settings [MRUFlags4]</pattern>
+                <pattern type="Registry">HKCU\Software\Microsoft\Office\16.0\Access\Settings [MRUFlags5]</pattern>
+                <pattern type="Registry">HKCU\Software\Microsoft\Office\16.0\Access\Settings [MRUFlags6]</pattern>
+                <pattern type="Registry">HKCU\Software\Microsoft\Office\16.0\Access\Settings [MRUFlags7]</pattern>
+                <pattern type="Registry">HKCU\Software\Microsoft\Office\16.0\Access\Settings [MRUFlags8]</pattern>
+                <pattern type="Registry">HKCU\Software\Microsoft\Office\16.0\Access\Settings [MRUFlags9]</pattern>
+              </objectSet>
+            </exclude>
+            <merge script="MigXmlHelper.DestinationPriority()">
+              <objectSet>
+                <pattern type="Registry">HKCU\Software\Microsoft\Office\16.0\Access\Options [Default Database Directory]</pattern>
+              </objectSet>
+            </merge>
+          </rules>
+          <rules name="Office16to16SettingsMigrate" />
+        </role>
+      </component>
+
+      <!-- Microsoft Office Excel 16 -->
+      <component  context="UserAndSystem" type="Application">
+        <displayName _locID="migapp.office16excel">Microsoft Office Excel 16</displayName>
+        <environment>
+          <variable name="OFFICEPROGRAM">
+            <text>Excel</text>
+          </variable>
+        </environment>
+        <role role="Settings">
+          <detection name="Excel" />
+          <detection name="Excel_x64" />
+          <rules>
+            <destinationCleanup>
+              <objectSet>
+                <pattern type="Registry">HKCU\Software\Microsoft\Office\16.0\Excel\Error Checking\* [*]</pattern>
+                <pattern type="Registry">HKCU\Software\Microsoft\Office\16.0\Excel\Internet\* [*]</pattern>
+                <pattern type="Registry">HKCU\Software\Microsoft\Office\16.0\Excel\Options\* [*]</pattern>
+              </objectSet>
+            </destinationCleanup>
+            <include>
+              <objectSet>
+                <pattern type="Registry">HKCU\Software\Microsoft\Office\16.0\Excel\* [*]</pattern>
+              </objectSet>
+            </include>
+          </rules>
+          <rules name="Office16to16SettingsMigrate" />
+        </role>
+      </component>
+
+      <!-- Microsoft Office OneNote 16 -->
+      <component context="UserAndSystem" type="Application">
+        <displayName _locID="migapp.office16onenote">Microsoft Office OneNote 16</displayName>
+        <environment>
+          <variable name="OneNoteCachePath">
+            <script>MigXmlHelper.GetStringContent("Registry","HKCU\Software\Microsoft\Office\16.0\OneNote\General [CachePath]")</script>
+          </variable>
+          <variable name="OFFICEPROGRAM">
+            <text>OneNote</text>
+          </variable>
+        </environment>
+        <role role="Settings">
+          <detection name="OneNote" />
+          <detection name="OneNote_x64" />
+          <rules>
+            <destinationCleanup>
+              <objectSet>
+                <pattern type="File">%OneNoteCachePath%\OneNoteOfflineCache_Files\* [*]</pattern>
+                <pattern type="File">%OneNoteCachePath% [OneNoteOfflineCache.onecache]</pattern>
+              </objectSet>
+            </destinationCleanup>
+            <include>
+              <objectSet>
+                <pattern type="Registry">HKCU\Software\Microsoft\Office\16.0\OneNote\* [*]</pattern>
+                <pattern type="File">%CSIDL_APPDATA%\Microsoft\OneNote\16.0\* [*]</pattern>
+                <pattern type="File">%CSIDL_LOCAL_APPDATA%\Microsoft\Office [OneNote.officeUI]</pattern>
+              </objectSet>
+            </include>
+            <exclude>
+              <objectSet>
+                <pattern type="Registry">HKCU\Software\Microsoft\Office\16.0\OneNote\Options\Other [EnableAudioSearch]</pattern>
+              </objectSet>
+            </exclude>
+            <merge script="MigXmlHelper.SourcePriority()">
+              <objectSet>
+                <pattern type="File">%CSIDL_APPDATA%\Microsoft\OneNote\16.0\* [*]</pattern>
+                <pattern type="File">%CSIDL_LOCAL_APPDATA%\Microsoft\Office [OneNote.officeUI]</pattern>
+              </objectSet>
+            </merge>
+          </rules>
+          <rules name="Office16to16SettingsMigrate" />
+        </role>
+      </component>
+
+      <!-- Microsoft Office InfoPath 16 -->
+      <component context="UserAndSystem" type="Application">
+        <displayName _locID="migapp.office16infopath">Microsoft Office InfoPath 16</displayName>
+        <environment>
+          <variable name="OFFICEPROGRAM">
+            <text>OneNote</text>
+          </variable>
+        </environment>
+        <role role="Settings">
+          <detection name="InfoPath" />
+          <detection name="InfoPath_x64" />
+          <rules>
+            <include>
+              <objectSet>
+                <pattern type="Registry">HKCU\Software\Microsoft\Office\16.0\InfoPath\* [*]</pattern>
+              </objectSet>
+            </include>
+            <merge script="MigXmlHelper.SourcePriority()">
+              <objectSet>
+                <pattern type="Registry">HKCU\Software\Microsoft\Office\16.0\InfoPath\* [*]</pattern>
+              </objectSet>
+            </merge>
+          </rules>
+          <rules name="Office16to16SettingsMigrate" />
+        </role>
+      </component>
+
+      <!-- Microsoft Office SharePoint Designer 16 -->
+      <component context="UserAndSystem" type="Application">
+        <displayName _locID="migapp.office16sharepointdesigner">Microsoft SharePoint Designer 16</displayName>
+        <environment>
+          <variable name="OFFICEPROGRAM">
+            <text>SharePointDesigner</text>
+          </variable>
+        </environment>
+        <role role="Settings">
+          <detection name="SharePointDesigner" />
+          <detection name="SharePointDesigner_x64" />
+          <rules>
+            <include>
+              <objectSet>
+                <pattern type="Registry">HKCU\Software\Microsoft\Office\16.0\SharePoint Designer\* [*]</pattern>
+              </objectSet>
+            </include>
+            <merge script="MigXmlHelper.SourcePriority()">
+              <objectSet>
+                <pattern type="Registry">HKCU\Software\Microsoft\Office\16.0\SharePoint Designer\* [*]</pattern>
+              </objectSet>
+            </merge>
+          </rules>
+          <rules name="Office16to16SettingsMigrate" />
+        </role>
+      </component>
+
+      <!-- Microsoft Office Outlook 2016 -->
+      <component context="UserAndSystem" type="Application">
+        <displayName _locID="migapp.office16outlook">Microsoft Office Outlook 2016</displayName>
+        <environment>
+          <variable name="OFFICEPROGRAM">
+            <text>Outlook</text>
+          </variable>
+          <variable name="OUTLOOKPROFILESPATH">
+            <text>HKCU\Software\Microsoft\Office\16.0\Outlook\Profiles\</text>
+          </variable>
+        </environment>
+        <role role="Settings">
+          <detection name="Outlook" />
+          <detection name="Outlook_x64" />
+          <rules name="OutlookPstPab" />
+          <rules context="User">
+            <include>
+              <objectSet>
+                <pattern type="Registry">HKCU\Software\Microsoft\Office\Outlook\* [*]</pattern>
+                <pattern type="Registry">HKCU\Software\Microsoft\Office\16.0\Outlook\* [*]</pattern>
+                <pattern type="Registry">HKCU\Software\Microsoft\Exchange\* [*]</pattern>
+                <pattern type="Registry">HKCU\Software\Microsoft\Office\16.0\Outlook\Profiles\* [*]</pattern>
+
+                <pattern type="File">%CSIDL_APPDATA%\Microsoft\Office [*.officeUI]</pattern>
+                <pattern type="File">%CSIDL_LOCAL_APPDATA%\Microsoft\Office [*.officeUI]</pattern>
+                <pattern type="File">%CSIDL_APPDATA%\Microsoft\Templates\* [*]</pattern>
+                <pattern type="File">%CSIDL_APPDATA%\Microsoft\Stationary\* [*]</pattern>
+                <pattern type="File">%CSIDL_APPDATA%\Microsoft\Outlook\* [*]</pattern>
+                <pattern type="File">%CSIDL_APPDATA%\Microsoft\Signatures\* [*]</pattern>
+                <pattern type="File">%CSIDL_LOCAL_APPDATA%\Microsoft\FORMS [frmcache.dat]</pattern>
+                <pattern type="File">%CSIDL_LOCAL_APPDATA%\Microsoft\Outlook\* [*]</pattern>
+                <!-- Move .pst files -->
+                <content filter="MigXmlHelper.ExtractSingleFile(NULL,'NULL')">
+                  <objectSet>
+                    <pattern type="Registry">HKCU\Software\Microsoft\Office\16.0\Outlook\Search\* [*]</pattern>
+                  </objectSet>
+                </content>
+                <!-- Move journals -->
+                <content filter="MigXmlHelper.ExtractSingleFile(NULL,'%CSIDL_LOCAL_APPDATA%\Microsoft\Outlook')">
+                  <objectSet>
+                    <pattern type="Registry">HKCU\Software\Microsoft\Office\16.0\Outlook\Journal\* [*]</pattern>
+                  </objectSet>
+                </content>
+                <!-- Move .FAV files -->
+                <content filter="MigXmlHelper.ExtractSingleFile(NULL, NULL)">
+                  <objectSet>
+                    <pattern type="Registry">HKCU\Software\Microsoft\Office\16.0\Outlook\Profiles\* [001e023d]</pattern>
+                    <pattern type="Registry">HKCU\Software\Microsoft\Office\16.0\Outlook\Profiles\* [001f023d]</pattern>
+                  </objectSet>
+                </content>
+              </objectSet>
+            </include>
+            <exclude>
+              <objectSet>
+                <!-- We don't migrate .ost files, as recommended by the Outlook team -->
+                <pattern type="File">%CSIDL_LOCAL_APPDATA%\Microsoft\Outlook\* [*.ost]</pattern>
+              </objectSet>
+            </exclude>
+            <merge script="MigXmlHelper.SourcePriority()">
+              <objectSet>
+                <pattern type="File">%CSIDL_APPDATA%\Microsoft\Outlook\* [*.srs]</pattern>
+                <pattern type="File">%CSIDL_APPDATA%\Microsoft\Outlook\* [*.xml]</pattern>
+                <pattern type="File">%CSIDL_APPDATA%\Microsoft\Outlook\* [*.dat]</pattern>
+                <pattern type="File">%CSIDL_LOCAL_APPDATA%\Microsoft\FORMS [frmcache.dat]</pattern>
+              </objectSet>
+            </merge>
+            <merge script="MigXmlHelper.DestinationPriority()">
+              <objectSet>
+                <pattern type="File">%CSIDL_APPDATA%\Microsoft\Outlook [*.rwz]</pattern>
+              </objectSet>
+            </merge>
+          </rules>
+          <rules name="Office16to16SettingsMigrate" />
+        </role>
+      </component>
+
+      <!-- Microsoft Office PowerPoint 16 -->
+      <component context="UserAndSystem" type="Application">
+        <displayName _locID="migapp.office16powerpoint">Microsoft Office PowerPoint 16</displayName>
+        <environment>
+          <variable name="OFFICEPROGRAM">
+            <text>PowerPoint</text>
+          </variable>
+        </environment>
+        <role role="Settings">
+          <detection name="PowerPoint" />
+          <detection name="PowerPoint_x64" />
+          <rules>
+            <destinationCleanup>
+              <objectSet>
+                <pattern type="Registry">HKCU\Software\Microsoft\Office\16.0\PowerPoint\Options\* [*]</pattern>
+                <pattern type="Registry">HKCU\Software\Microsoft\Office\16.0\PowerPoint\Internet\* [*]</pattern>
+              </objectSet>
+            </destinationCleanup>
+            <include>
+              <objectSet>
+                <pattern type="Registry">HKCU\Software\Microsoft\Office\16.0\PowerPoint\* [*]</pattern>
+                <pattern type="File">%CSIDL_APPDATA%\Microsoft\PowerPoint\* [*]</pattern>
+              </objectSet>
+            </include>
+            <merge script="MigXmlHelper.SourcePriority()">
+              <objectSet>
+                <pattern type="File">%CSIDL_APPDATA%\Microsoft\PowerPoint\* [*]</pattern>
+              </objectSet>
+            </merge>
+          </rules>
+          <rules name="Office16to16SettingsMigrate" />
+        </role>
+      </component>
+
+      <!-- Microsoft Project 16 -->
+      <component context="UserAndSystem" type="Application">
+        <displayName _locID="migapp.office16project">Microsoft Project 16</displayName>
+        <environment>
+          <variable name="OFFICEPROGRAM">
+            <text>Project</text>
+          </variable>
+        </environment>
+        <role role="Settings">
+          <detection name="Project16" />
+          <detection name="Project16_x64" />
+          <rules>
+            <destinationCleanup>
+              <objectSet>
+                <pattern type="Registry">HKCU\Software\Microsoft\Office\16.0\MS Project\Options\* [*]</pattern>
+              </objectSet>
+            </destinationCleanup>
+            <include>
+              <objectSet>
+                <pattern type="Registry">HKCU\Software\Microsoft\Office\16.0\MS Project\* [*]</pattern>
+                <pattern type="File">%CSIDL_APPDATA%\Microsoft\MS Project\16\* [*]</pattern>
+              </objectSet>
+            </include>
+            <merge script="MigXmlHelper.SourcePriority()">
+              <objectSet>
+                <pattern type="File">%CSIDL_APPDATA%\Microsoft\MS Project\16\* [*]</pattern>
+              </objectSet>
+            </merge>
+          </rules>
+          <rules name="Office16to16SettingsMigrate" />
+        </role>
+      </component>
+
+      <!-- Microsoft Office Publisher 16 -->
+      <component context="UserAndSystem" type="Application">
+        <displayName _locID="migapp.office16publisher">Microsoft Office Publisher 2016</displayName>
+        <environment>
+          <variable name="OFFICEPROGRAM">
+            <text>Publisher</text>
+          </variable>
+        </environment>
+        <role role="Settings">
+          <detection name="Publisher" />
+          <detection name="Publisher_x64" />
+          <rules>
+            <destinationCleanup>
+              <objectSet>
+                <pattern type="Registry">HKCU\Software\Microsoft\Office\16.0\Publisher\Preferences\* [*]</pattern>
+              </objectSet>
+            </destinationCleanup>
+            <include>
+              <objectSet>
+                <pattern type="Registry">HKCU\Software\Microsoft\Office\16.0\Publisher\* [*]</pattern>
+                <pattern type="File">%CSIDL_APPDATA%\Microsoft\Publisher\* [*]</pattern>
+                <pattern type="File">%CSIDL_APPDATA%\Microsoft\Publisher Building Blocks\* [*]</pattern>
+              </objectSet>
+            </include>
+            <merge script="MigXmlHelper.SourcePriority()">
+              <objectSet>
+                <pattern type="File">%CSIDL_APPDATA%\Microsoft\Publisher\* [*]</pattern>
+                <pattern type="File">%CSIDL_APPDATA%\Microsoft\Publisher Building Blocks\* [*]</pattern>
+              </objectSet>
+            </merge>
+          </rules>
+          <rules name="Office16to16SettingsMigrate" />
+        </role>
+      </component>
+
+      <!-- Microsoft Office SmartTags -->
+      <component context="User" type="Application">
+        <displayName _locID="migapp.office16smarttag">Microsoft Office SmartTags</displayName>
+        <role role="Container">
+          <detection name="MicrosoftOutlookEmailRecipientsSmartTags" />
+          <detection name="MicrosoftListsSmartTags16" />
+          <detection name="MicrosoftPlaceSmartTags" />
+
+          <!-- Microsoft Outlook Email Recipients SmartTags -->
+          <component context="User" type="Application">
+            <displayName _locID="migapp.office16emailsmarttag">Microsoft Outlook Email Recipients SmartTags</displayName>
+            <role role="Settings">
+              <detection name="MicrosoftOutlookEmailRecipientsSmartTags" />
+              <rules>
+                <destinationCleanup>
+                  <objectSet>
+                    <pattern type="Registry">HKCU\Software\Microsoft\Office\Common\Smart Tag\Recognizers\{4FFB3E8B-AE75-48F2-BF13-D0D7E93FA8F9} [*]</pattern>
+                  </objectSet>
+                </destinationCleanup>
+                <include>
+                  <objectSet>
+                    <pattern type="Registry">HKCU\Software\Microsoft\Office\Common\Smart Tag\Recognizers\{4FFB3E8B-AE75-48F2-BF13-D0D7E93FA8F9}\* [*]</pattern>
+                  </objectSet>
+                </include>
+              </rules>
+            </role>
+          </component>
+
+          <!-- Microsoft Lists SmartTags -->
+          <component context="User" type="Application">
+            <displayName _locID="migapp.office16listsmarttag">Microsoft Lists SmartTags</displayName>
+            <role role="Settings">
+              <detection name="MicrosoftListsSmartTags16" />
+              <rules>
+                <destinationCleanup>
+                  <objectSet>
+                    <pattern type="Registry">HKCU\Software\Microsoft\Office\Common\Smart Tag\Recognizers\{64AB6C69-B40E-40AF-9B7F-F5687B48E2B6}\* [*]</pattern>
+                  </objectSet>
+                </destinationCleanup>
+                <include>
+                  <objectSet>
+                    <pattern type="Registry">HKCU\Software\Microsoft\Office\Common\Smart Tag\Recognizers\{64AB6C69-B40E-40AF-9B7F-F5687B48E2B6}\* [*]</pattern>
+                  </objectSet>
+                </include>
+              </rules>
+            </role>
+          </component>
+
+          <!-- Microsoft Place SmartTags -->
+          <component context="User" type="Application">
+            <displayName _locID="migapp.office16placesmarttag">Microsoft Place SmartTags</displayName>
+            <role role="Settings">
+              <detection name="MicrosoftPlaceSmartTags" />
+              <rules>
+                <destinationCleanup>
+                  <objectSet>
+                    <pattern type="Registry">HKCU\Software\Microsoft\Office\Common\Smart Tag\Recognizers\{87EF1CFE-51CA-4E6B-8C76-E576AA926888} [*]</pattern>
+                  </objectSet>
+                </destinationCleanup>
+                <include>
+                  <objectSet>
+                    <pattern type="Registry">HKCU\Software\Microsoft\Office\Common\Smart Tag\Recognizers\{87EF1CFE-51CA-4E6B-8C76-E576AA926888}\* [*]</pattern>
+                  </objectSet>
+                </include>
+              </rules>
+            </role>
+          </component>
+        </role>
+      </component>
+
+      <!-- Microsoft Office Visio 16 -->
+      <component type="Application" context="UserAndSystem">
+        <displayName _locID="migapp.visio16">Microsoft Office Visio 16</displayName>
+        <environment>
+          <variable name="OFFICEPROGRAM">
+            <text>Visio</text>
+          </variable>
+        </environment>
+        <role role="Settings">
+          <detection name="Visio16" />
+          <detection name="Visio16_x64" />
+          <rules context="User">
+            <destinationCleanup>
+              <objectSet>
+                <pattern type="Registry">HKCU\software\Microsoft\Office\16.0\Visio\Application\* [*]</pattern>
+              </objectSet>
+            </destinationCleanup>
+            <include>
+              <objectSet>
+                <pattern type="Registry">HKCU\software\Microsoft\Office\16.0\Visio\* [*]</pattern>
+                <pattern type="File">%CSIDL_LOCAL_APPDATA%\Microsoft\Visio\* [*]</pattern>
+              </objectSet>
+            </include>
+            <exclude>
+              <objectSet>
+                <pattern type="Registry">HKCU\Software\Microsoft\Office\16.0\Visio\Application [LicenseCache]</pattern>
+                <pattern type="Registry">HKCU\Software\Microsoft\Office\16.0\Visio\Application [ConfigChangeID]</pattern>
+                <pattern type="Registry">HKCU\Software\Microsoft\Office\16.0\Visio\Application [MyShapesPath]</pattern>
+                <pattern type="Registry">HKCU\Software\Microsoft\Office\16.0\Visio\Application [DrawingsPath]</pattern>
+                <pattern type="Registry">HKCU\Software\Microsoft\Office\16.0\Visio\Application [StartUpPath]</pattern>
+                <pattern type="Registry">HKCU\Software\Microsoft\Office\16.0\Visio\Application [StencilPath]</pattern>
+                <pattern type="Registry">HKCU\Software\Microsoft\Office\16.0\Visio\Application [TemplatePath]</pattern>
+                <pattern type="Registry">HKCU\Software\Microsoft\Office\16.0\Visio\Quick Shapes\* [*]</pattern>
+                <pattern type="Registry">HKCU\Software\Microsoft\Office\16.0\Visio\Security\* [*]</pattern>
+                <pattern type="Registry">HKCU\Software\Microsoft\Office\16.0\Visio\Recent Templates\* [*]</pattern>
+              </objectSet>
+            </exclude>
+            <merge script="MigXmlHelper.SourcePriority()">
+              <objectSet>
+                <pattern type="File">%CSIDL_LOCAL_APPDATA%\Microsoft\Visio\* [*]</pattern>
+              </objectSet>
+            </merge>
+          </rules>
+          <rules name="Office16to16SettingsMigrate" />
+        </role>
+      </component>
+
+      <!-- Microsoft Office Word 16 (32-bit) -->
+      <component context="UserAndSystem" type="Application">
+        <displayName _locID="migapp.office16word32bit">Microsoft Office Word 2016 (32-bit)</displayName>
+        <environment>
+          <variable name="OFFICEPROGRAM">
+            <text>Word</text>
+          </variable>
+          <variable name="OFFICEVERSION">
+            <text>16.0</text>
+          </variable>
+        </environment>
+        <role role="Settings">
+          <detection name="Word" />
+          <detection name="Word_x64"/>
+          <rules>
+            <destinationCleanup>
+              <objectSet>
+                <pattern type="Registry">HKCU\software\Microsoft\Office\16.0\Word\Data\* [*]</pattern>
+              </objectSet>
+            </destinationCleanup>
+            <include>
+              <objectSet>
+                <pattern type="Registry">HKCU\Software\Microsoft\Office\16.0\Word\* [*]</pattern>
+                <pattern type="Registry">HKCU\Software\Microsoft\Office\16.0\Common\Toolbars\Word\* [*]</pattern>
+                <pattern type="Registry">HKCU\Software\Microsoft\Office\16.0\Common\Research\* [*]</pattern>
+                <pattern type="Registry">HKCU\Software\Microsoft\Office\16.0\Common\General\[SharedDocumentParts]</pattern>
+                <pattern type="Registry">HKCU\Software\Microsoft\Office\16.0\Common\General\[SharedTemplates]</pattern>
+                <pattern type="Registry">HKCU\Software\Microsoft\Office\16.0\Common\General\[Templates]</pattern>
+                <pattern type="Registry">HKCU\Software\Microsoft\Office\16.0\Common\General\[Themes]</pattern>
+                <pattern type="Registry">HKCU\Software\Microsoft\Office\Common\Blog \* [*]</pattern>
+                <pattern type="Registry">HKCU\Software\Microsoft\Office\16.0\Common\Spotlight\* [*]</pattern>
+                <pattern type="File">%CSIDL_APPDATA%\Microsoft\Templates\* [*]</pattern>
+                <pattern type="File">%CSIDL_APPDATA%\Microsoft\Proof\* [*]</pattern>
+                <pattern type="File">%CSIDL_APPDATA%\Microsoft\UProof\* [*]</pattern>
+                <pattern type="File">%CSIDL_APPDATA%\Microsoft\QuickStyles\* [*]</pattern>
+                <pattern type="File">%CSIDL_APPDATA%\Microsoft\Document Building Blocks\* [*]</pattern>
+                <pattern type="File">%CSIDL_APPDATA%\Microsoft\Bibliography\* [*]</pattern>
+                <pattern type="File">%CSIDL_LOCAL_APPDATA%\Microsoft\Office\ [Word.qat]</pattern>
+                <pattern type="File">%CSIDL_LOCAL_APPDATA%\Microsoft\Office\ [Word16.customUI]</pattern>
+                <pattern type="File">%CSIDL_APPDATA%\Microsoft\Office\ [Word16.pip]</pattern>
+                <pattern type="File">%CSIDL_APPDATA%\Microsoft\Office\ [WordMa16.pip]</pattern>
+              </objectSet>
+            </include>
+            <merge script="MigXmlHelper.SourcePriority()">
+              <objectSet>
+                <pattern type="File">%CSIDL_APPDATA%\Microsoft\Templates\* [*]</pattern>
+                <pattern type="File">%CSIDL_APPDATA%\Microsoft\Proof\* [*]</pattern>
+                <pattern type="File">%CSIDL_APPDATA%\Microsoft\UProof\* [*]</pattern>
+                <pattern type="File">%CSIDL_APPDATA%\Microsoft\QuickStyles\* [*]</pattern>
+                <pattern type="File">%CSIDL_LOCAL_APPDATA%\Microsoft\Office\ [Word.qat]</pattern>
+                <pattern type="File">%CSIDL_LOCAL_APPDATA%\Microsoft\Office\ [Word16.customUI]</pattern>
+                <pattern type="File">%CSIDL_APPDATA%\Microsoft\Office\ [Word16.pip]</pattern>
+                <pattern type="File">%CSIDL_APPDATA%\Microsoft\Office\ [WordMa16.pip]</pattern>
+                <pattern type="File">%CSIDL_APPDATA%\Microsoft\Office\ [WordMa16.pip]</pattern>
+                <pattern type="File">%CSIDL_APPDATA%\Microsoft\Document Building Blocks\* [*]</pattern>
+              </objectSet>
+            </merge>
+            <unconditionalExclude>
+              <objectSet>
+                <pattern type="Registry">HKCU\Software\Microsoft\Office\16.0\Word\Options\[PROGRAMDIR]</pattern>
+                <!-- A user would only set these two setting to mitigate performance issues on an older machine. It's likely that users are upgrading to a more powerful machine, so let the defaults kick back in for these settings -->
+                <pattern type="Registry">HKCU\Software\Microsoft\Office\16.0\Word\Options\[LiveDrag]</pattern>
+                <pattern type="Registry">HKCU\Software\Microsoft\Office\16.0\Word\Options\[LivePreview]</pattern>
+                <!-- We can't know if the source \Word\Data\ blobs will be valid on the destination system, so exclude them-->
+                <pattern type="Registry">HKCU\software\Microsoft\Office\16.0\Word\Data\* [*]</pattern>
+              </objectSet>
+            </unconditionalExclude>
+          </rules>
+          <rules name="Office16to16SettingsMigrate" />
+        </role>
+      </component>
+	</component>
+</migration>

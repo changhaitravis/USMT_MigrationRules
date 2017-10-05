@@ -1,0 +1,42 @@
+<migration urlid="http://www.microsoft.com/migration/1.0/migxmlext/MigApp-WinSCP-standalone">
+  
+  <!-- WinSCP 2 (using v5.9 to create this)-->
+  <component context="UserAndSystem" type="Application">
+    <displayName>WinSCP 2</displayName>
+	<environment>
+      <conditions>
+        <condition>MigXmlHelper.IsNative64Bit()</condition>
+      </conditions>
+      <variable name="HklmWowSoftware">
+        <text>HKLM\SOFTWARE\Wow6432Node</text>
+      </variable>
+    </environment>
+    <environment>
+      <conditions>
+        <condition negation="Yes">MigXmlHelper.IsNative64Bit()</condition>
+      </conditions>
+      <variable name="HklmWowSoftware">
+        <text>HKLM\Software</text>
+      </variable>
+    </environment>
+    <role role="Settings">
+      <detection>
+        <conditions>
+	          <condition>MigXmlHelper.DoesObjectExist("Registry","%HklmWowSoftware%\Martin Prikryl\WinSCP 2\ [Installations]")</condition>
+		</conditions>
+      </detection>
+      <rules context="User">
+        <destinationCleanup>
+          <objectSet>
+            <pattern type="Registry">HKCU\Software\Martin Prikryl\WinSCP 2\Sessions\* [*]</pattern>
+          </objectSet>
+        </destinationCleanup>
+        <include>
+          <objectSet>
+            <pattern type="Registry">HKCU\Software\Martin Prikryl\WinSCP 2\Sessions\* [*]</pattern>
+          </objectSet>
+        </include>
+      </rules>
+    </role>
+  </component>
+</migration>
