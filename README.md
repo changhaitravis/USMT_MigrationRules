@@ -6,7 +6,7 @@ use the `/i:` flag to include the Migration Rule .xml files you want to use.
 Core:
 - MigDocs.xml
 - MigUser.xml
-- MigApp-with-Office.xml
+- MigApp-with-Office2016.xml
 
 Supplement/Standalones:
 - Mig-SecureCRT.xml
