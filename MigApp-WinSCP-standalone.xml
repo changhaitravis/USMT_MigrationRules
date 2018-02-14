@@ -28,12 +28,12 @@
       <rules context="User">
         <destinationCleanup>
           <objectSet>
-            <pattern type="Registry">HKCU\Software\Martin Prikryl\WinSCP 2\Sessions\* [*]</pattern>
+            <pattern type="Registry">HKCU\Software\Martin Prikryl\WinSCP 2\* [*]</pattern>
           </objectSet>
         </destinationCleanup>
         <include>
           <objectSet>
-            <pattern type="Registry">HKCU\Software\Martin Prikryl\WinSCP 2\Sessions\* [*]</pattern>
+            <pattern type="Registry">HKCU\Software\Martin Prikryl\WinSCP 2\* [*]</pattern>
           </objectSet>
         </include>
       </rules>
