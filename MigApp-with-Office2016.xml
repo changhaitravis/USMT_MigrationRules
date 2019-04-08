@@ -40,7 +40,7 @@
     </environment>
 
     <!-- Global USER -->
-    <environment context="USER" name="GlobalEnvX64User">
+    <environment context="User" name="GlobalEnvX64User">
       <conditions>
         <condition>MigXmlHelper.IsNative64Bit()</condition>
       </conditions>
@@ -51,7 +51,7 @@
         <text>%CSIDL_VIRTUALSTORE_COMMONPROGRAMFILES(X86)%</text>
       </variable>
     </environment>
-    <environment context="USER" name="GlobalEnvUser">
+    <environment context="User" name="GlobalEnvUser">
       <conditions>
         <condition negation="Yes">MigXmlHelper.IsNative64Bit()</condition>
       </conditions>
@@ -574,6 +574,68 @@
       </contentModify>
     </rules>
 
+    <!-- Office 2003 to Office 16 x86 Settings Upgrade Rule -->
+    <rules name="Office2003to16SettingsUpgrade" context="System">
+      <include>
+        <objectSet>
+          <pattern type="Registry">%HklmWowSoftware%\Microsoft\Office\15.0\Common\Migration\%OFFICEPROGRAM% [Lang]</pattern>
+          <pattern type="Registry">%HklmWowSoftware%\Microsoft\Office\15.0\Common\Migration\%OFFICEPROGRAM% [UpgradeVersion]</pattern>
+          <pattern type="Registry">HKLM\Software\Microsoft\Office\11.0\Common\LanguageResources [SKULanguage]</pattern>
+        </objectSet>
+      </include>
+      <addObjects>
+        <object>
+          <location type="Registry">%HklmWowSoftware%\Microsoft\Office\16.0\Common\Migration\%OFFICEPROGRAM% [UpgradeVersion]</location>
+          <attributes>DWORD</attributes>
+          <bytes>0B000000</bytes>
+        </object>
+        <object>
+          <location type="Registry">%HklmWowSoftware%\Microsoft\Office\16.0\Common\Migration\%OFFICEPROGRAM% [Lang]</location>
+          <attributes>DWORD</attributes>
+          <bytes>00000000</bytes>
+        </object>
+      </addObjects>
+      <contentModify script="MigSysHelper.ConvertToOfficeLangID('Registry','HKCU\Software\Microsoft\Office\11.0\Common\LanguageResources [SKULanguage]','HKLM\Software\Microsoft\Office\11.0\Common\LanguageResources [SKULanguage]')">
+        <objectSet>
+          <pattern type="Registry">%HklmWowSoftware%\Microsoft\Office\16.0\Common\Migration\%OFFICEPROGRAM% [Lang]</pattern>
+        </objectSet>
+      </contentModify>
+      <locationModify script="MigXmlHelper.RelativeMove('%HklmWowSoftware%','%HklmWowSoftware%')">
+        <objectSet>
+          <pattern type="Registry">%HklmWowSoftware%\Microsoft\Office\16.0\Common\Migration\%OFFICEPROGRAM% [Lang]</pattern>
+          <pattern type="Registry">%HklmWowSoftware%\Microsoft\Office\16.0\Common\Migration\%OFFICEPROGRAM% [UpgradeVersion]</pattern>
+        </objectSet>
+      </locationModify>
+    </rules>
+    
+    <!-- Office 2003 to Office 16 x64 Settings Upgrade Rule -->
+    <rules name="Office2003to16SettingsUpgrade_x64" context="System">
+      <include>
+        <objectSet>
+          <pattern type="Registry">HKLM\Software\Microsoft\Office\16.0\Common\Migration\%OFFICEPROGRAM% [Lang]</pattern>
+          <pattern type="Registry">HKLM\Software\Microsoft\Office\16.0\Common\Migration\%OFFICEPROGRAM% [UpgradeVersion]</pattern>
+          <pattern type="Registry">HKLM\Software\Microsoft\Office\11.0\Common\LanguageResources [SKULanguage]</pattern>
+        </objectSet>
+      </include>
+      <addObjects>
+        <object>
+          <location type="Registry">HKLM\Software\Microsoft\Office\16.0\Common\Migration\%OFFICEPROGRAM% [UpgradeVersion]</location>
+          <attributes>DWORD</attributes>
+          <bytes>0B000000</bytes>
+        </object>
+        <object>
+          <location type="Registry">HKLM\Software\Microsoft\Office\16.0\Common\Migration\%OFFICEPROGRAM% [Lang]</location>
+          <attributes>DWORD</attributes>
+          <bytes>00000000</bytes>
+        </object>
+      </addObjects>
+      <contentModify script="MigSysHelper.ConvertToOfficeLangID('Registry','HKCU\Software\Microsoft\Office\11.0\Common\LanguageResources [SKULanguage]','HKLM\Software\Microsoft\Office\11.0\Common\LanguageResources [SKULanguage]')">
+        <objectSet>
+          <pattern type="Registry">HKLM\Software\Microsoft\Office\16.0\Common\Migration\%OFFICEPROGRAM% [Lang]</pattern>
+        </objectSet>
+      </contentModify>
+    </rules>
+
     <!-- Office 2007 to Office 2010 x86 Settings Upgrade Rule -->
     <rules name="Office2007to14SettingsUpgrade" context="System">
       <include>
@@ -698,6 +760,69 @@
       </contentModify>
     </rules>
 
+    
+    <!-- Office 2007 to Office 16 x86 Settings Upgrade Rule -->
+    <rules name="Office2007to16SettingsUpgrade" context="System">
+      <include>
+        <objectSet>
+          <pattern type="Registry">%HklmWowSoftware%\Microsoft\Office\16.0\Common\Migration\%OFFICEPROGRAM% [UpgradeVersion]</pattern>
+          <pattern type="Registry">%HklmWowSoftware%\Microsoft\Office\16.0\Common\Migration\%OFFICEPROGRAM% [Lang]</pattern>
+          <pattern type="Registry">HKLM\Software\Microsoft\Office\12.0\Common\LanguageResources [SKULanguage]</pattern>
+        </objectSet>
+      </include>
+      <addObjects>
+        <object>
+          <location type="Registry">%HklmWowSoftware%\Microsoft\Office\16.0\Common\Migration\%OFFICEPROGRAM% [UpgradeVersion]</location>
+          <attributes>DWORD</attributes>
+          <bytes>0C000000</bytes>
+        </object>
+        <object>
+          <location type="Registry">%HklmWowSoftware%\Microsoft\Office\16.0\Common\Migration\%OFFICEPROGRAM% [Lang]</location>
+          <attributes>DWORD</attributes>
+          <bytes>00000000</bytes>
+        </object>
+      </addObjects>
+      <contentModify script="MigSysHelper.ConvertToOfficeLangID('Registry','HKCU\Software\Microsoft\Office\12.0\Common\LanguageResources [SKULanguage]','HKLM\Software\Microsoft\Office\12.0\Common\LanguageResources [SKULanguage]')">
+        <objectSet>
+          <pattern type="Registry">%HklmWowSoftware%\Microsoft\Office\16.0\Common\Migration\%OFFICEPROGRAM% [Lang]</pattern>
+        </objectSet>
+      </contentModify>
+      <locationModify script="MigXmlHelper.RelativeMove('%HklmWowSoftware%','%HklmWowSoftware%')">
+        <objectSet>
+          <pattern type="Registry">%HklmWowSoftware%\Microsoft\Office\16.0\Common\Migration\%OFFICEPROGRAM% [UpgradeVersion]</pattern>
+          <pattern type="Registry">%HklmWowSoftware%\Microsoft\Office\16.0\Common\Migration\%OFFICEPROGRAM% [Lang]</pattern>
+        </objectSet>
+      </locationModify>
+    </rules>
+
+    <!-- Office 2007 to Office 16 x64 Settings Upgrade Rule -->
+    <rules name="Office2007to16SettingsUpgrade_x64" context="System">
+      <include>
+        <objectSet>
+          <pattern type="Registry">HKLM\Software\Microsoft\Office\16.0\Common\Migration\%OFFICEPROGRAM% [UpgradeVersion]</pattern>
+          <pattern type="Registry">HKLM\Software\Microsoft\Office\16.0\Common\Migration\%OFFICEPROGRAM% [Lang]</pattern>
+          <pattern type="Registry">HKLM\Software\Microsoft\Office\12.0\Common\LanguageResources [SKULanguage]</pattern>
+        </objectSet>
+      </include>
+      <addObjects>
+        <object>
+          <location type="Registry">HKLM\Software\Microsoft\Office\16.0\Common\Migration\%OFFICEPROGRAM% [UpgradeVersion]</location>
+          <attributes>DWORD</attributes>
+          <bytes>0C000000</bytes>
+        </object>
+        <object>
+          <location type="Registry">HKLM\Software\Microsoft\Office\16.0\Common\Migration\%OFFICEPROGRAM% [Lang]</location>
+          <attributes>DWORD</attributes>
+          <bytes>00000000</bytes>
+        </object>
+      </addObjects>
+      <contentModify script="MigSysHelper.ConvertToOfficeLangID('Registry','HKCU\Software\Microsoft\Office\12.0\Common\LanguageResources [SKULanguage]','HKLM\Software\Microsoft\Office\12.0\Common\LanguageResources [SKULanguage]')">
+        <objectSet>
+          <pattern type="Registry">HKLM\Software\Microsoft\Office\16.0\Common\Migration\%OFFICEPROGRAM% [Lang]</pattern>
+        </objectSet>
+      </contentModify>
+    </rules>
+
     <!-- Office 2010 to Office 15 x86 Settings Upgrade Rule -->
     <rules name="Office14to15SettingsUpgrade" context="System">
       <include>
@@ -756,6 +881,68 @@
       <contentModify script="MigSysHelper.ConvertToOfficeLangID('Registry','HKCU\Software\Microsoft\Office\14.0\Common\LanguageResources [SKULanguage]','HKLM\Software\Microsoft\Office\14.0\Common\LanguageResources [SKULanguage]')">
         <objectSet>
           <pattern type="Registry">HKLM\Software\Microsoft\Office\15.0\Common\Migration\%OFFICEPROGRAM% [Lang]</pattern>
+        </objectSet>
+      </contentModify>
+    </rules>
+    
+    <!-- Office 2010 to Office 16 x86 Settings Upgrade Rule -->
+    <rules name="Office14to16SettingsUpgrade" context="System">
+      <include>
+        <objectSet>
+          <pattern type="Registry">%HklmWowSoftware%\Microsoft\Office\16.0\Common\Migration\%OFFICEPROGRAM% [UpgradeVersion]</pattern>
+          <pattern type="Registry">%HklmWowSoftware%\Microsoft\Office\16.0\Common\Migration\%OFFICEPROGRAM% [Lang]</pattern>
+          <pattern type="Registry">HKLM\Software\Microsoft\Office\14.0\Common\LanguageResources [SKULanguage]</pattern>
+        </objectSet>
+      </include>
+      <addObjects>
+        <object>
+          <location type="Registry">%HklmWowSoftware%\Microsoft\Office\16.0\Common\Migration\%OFFICEPROGRAM% [UpgradeVersion]</location>
+          <attributes>DWORD</attributes>
+          <bytes>0C000000</bytes>
+        </object>
+        <object>
+          <location type="Registry">%HklmWowSoftware%\Microsoft\Office\16.0\Common\Migration\%OFFICEPROGRAM% [Lang]</location>
+          <attributes>DWORD</attributes>
+          <bytes>00000000</bytes>
+        </object>
+      </addObjects>
+      <contentModify script="MigSysHelper.ConvertToOfficeLangID('Registry','HKCU\Software\Microsoft\Office\14.0\Common\LanguageResources [SKULanguage]','HKLM\Software\Microsoft\Office\14.0\Common\LanguageResources [SKULanguage]')">
+        <objectSet>
+          <pattern type="Registry">%HklmWowSoftware%\Microsoft\Office\16.0\Common\Migration\%OFFICEPROGRAM% [Lang]</pattern>
+        </objectSet>
+      </contentModify>
+      <locationModify script="MigXmlHelper.RelativeMove('%HklmWowSoftware%','%HklmWowSoftware%')">
+        <objectSet>
+          <pattern type="Registry">%HklmWowSoftware%\Microsoft\Office\16.0\Common\Migration\%OFFICEPROGRAM% [UpgradeVersion]</pattern>
+          <pattern type="Registry">%HklmWowSoftware%\Microsoft\Office\16.0\Common\Migration\%OFFICEPROGRAM% [Lang]</pattern>
+        </objectSet>
+      </locationModify>
+    </rules>
+
+    <!-- Office 2010 to Office 16 x64 Settings Upgrade Rule -->
+    <rules name="Office14to16SettingsUpgrade_x64" context="System">
+      <include>
+        <objectSet>
+          <pattern type="Registry">HKLM\Software\Microsoft\Office\16.0\Common\Migration\%OFFICEPROGRAM% [UpgradeVersion]</pattern>
+          <pattern type="Registry">HKLM\Software\Microsoft\Office\16.0\Common\Migration\%OFFICEPROGRAM% [Lang]</pattern>
+          <pattern type="Registry">HKLM\Software\Microsoft\Office\14.0\Common\LanguageResources [SKULanguage]</pattern>
+        </objectSet>
+      </include>
+      <addObjects>
+        <object>
+          <location type="Registry">HKLM\Software\Microsoft\Office\16.0\Common\Migration\%OFFICEPROGRAM% [UpgradeVersion]</location>
+          <attributes>DWORD</attributes>
+          <bytes>0C000000</bytes>
+        </object>
+        <object>
+          <location type="Registry">HKLM\Software\Microsoft\Office\16.0\Common\Migration\%OFFICEPROGRAM% [Lang]</location>
+          <attributes>DWORD</attributes>
+          <bytes>00000000</bytes>
+        </object>
+      </addObjects>
+      <contentModify script="MigSysHelper.ConvertToOfficeLangID('Registry','HKCU\Software\Microsoft\Office\14.0\Common\LanguageResources [SKULanguage]','HKLM\Software\Microsoft\Office\14.0\Common\LanguageResources [SKULanguage]')">
+        <objectSet>
+          <pattern type="Registry">HKLM\Software\Microsoft\Office\16.0\Common\Migration\%OFFICEPROGRAM% [Lang]</pattern>
         </objectSet>
       </contentModify>
     </rules>
@@ -897,7 +1084,7 @@
         <object>
           <location type="Registry">%HklmWowSoftware%\Microsoft\Office\16.0\Common\Migration\%OFFICEPROGRAM% [UpgradeVersion]</location>
           <attributes>DWORD</attributes>
-          <bytes>0E000000</bytes>
+          <bytes>0C000000</bytes>
         </object>
         <object>
           <location type="Registry">%HklmWowSoftware%\Microsoft\Office\16.0\Common\Migration\%OFFICEPROGRAM% [Lang]</location>
@@ -905,7 +1092,7 @@
           <bytes>00000000</bytes>
         </object>
       </addObjects>
-      <contentModify script="MigSysHelper.ConvertToOfficeLangID('Registry','HKCU\Software\Microsoft\Office\15.0\Common\LanguageResources [SKULanguage]','HKLM\Software\Microsoft\Office\15.0\Common\LanguageResources [SKULanguage]')">
+      <contentModify script="MigSysHelper.ConvertToOfficeLangID('Registry','HKCU\Software\Microsoft\Office\15.0\Common\LanguageResources [SKULanguage]','HKLM\Software\Microsoft\Office\14.0\Common\LanguageResources [SKULanguage]')">
         <objectSet>
           <pattern type="Registry">%HklmWowSoftware%\Microsoft\Office\16.0\Common\Migration\%OFFICEPROGRAM% [Lang]</pattern>
         </objectSet>
@@ -917,7 +1104,35 @@
         </objectSet>
       </locationModify>
     </rules>
-	
+    
+    <!-- Office 15 to Office 16 x64 Settings Upgrade Rule -->
+    <rules name="Office15to16SettingsUpgrade_x64" context="System">
+      <include>
+        <objectSet>
+          <pattern type="Registry">HKLM\Software\Microsoft\Office\16.0\Common\Migration\%OFFICEPROGRAM% [UpgradeVersion]</pattern>
+          <pattern type="Registry">HKLM\Software\Microsoft\Office\16.0\Common\Migration\%OFFICEPROGRAM% [Lang]</pattern>
+          <pattern type="Registry">HKLM\Software\Microsoft\Office\15.0\Common\LanguageResources [SKULanguage]</pattern>
+        </objectSet>
+      </include>
+      <addObjects>
+        <object>
+          <location type="Registry">HKLM\Software\Microsoft\Office\16.0\Common\Migration\%OFFICEPROGRAM% [UpgradeVersion]</location>
+          <attributes>DWORD</attributes>
+          <bytes>0C000000</bytes>
+        </object>
+        <object>
+          <location type="Registry">HKLM\Software\Microsoft\Office\16.0\Common\Migration\%OFFICEPROGRAM% [Lang]</location>
+          <attributes>DWORD</attributes>
+          <bytes>00000000</bytes>
+        </object>
+      </addObjects>
+      <contentModify script="MigSysHelper.ConvertToOfficeLangID('Registry','HKCU\Software\Microsoft\Office\15.0\Common\LanguageResources [SKULanguage]','HKLM\Software\Microsoft\Office\14.0\Common\LanguageResources [SKULanguage]')">
+        <objectSet>
+          <pattern type="Registry">HKLM\Software\Microsoft\Office\16.0\Common\Migration\%OFFICEPROGRAM% [Lang]</pattern>
+        </objectSet>
+      </contentModify>
+    </rules>
+    
 	<!-- Office 16 to Office 16 x86 Settings Upgrade Rule -->
     <rules name="Office16to16SettingsMigrate" context="System">
       <include>
@@ -939,7 +1154,7 @@
           <bytes>00000000</bytes>
         </object>
       </addObjects>
-      <contentModify script="MigSysHelper.ConvertToOfficeLangID('Registry','HKCU\Software\Microsoft\Office\16.0\Common\LanguageResources [SKULanguage]','HKLM\Software\Microsoft\Office\16.0\Common\LanguageResources [SKULanguage]')">
+      <contentModify script="MigSysHelper.ConvertToOfficeLangID('Registry','HKCU\Software\Microsoft\Office\16.0\Common\LanguageResources [SKULanguage]','HKLM\Software\Microsoft\Office\15.0\Common\LanguageResources [SKULanguage]')">
         <objectSet>
           <pattern type="Registry">%HklmWowSoftware%\Microsoft\Office\16.0\Common\Migration\%OFFICEPROGRAM% [Lang]</pattern>
         </objectSet>
@@ -952,6 +1167,35 @@
       </locationModify>
     </rules>
 
+    <!-- Office 16 to Office 16 x64 Settings Upgrade Rule -->
+    <rules name="Office16to16SettingsMigrate_x64" context="System">
+      <include>
+        <objectSet>
+          <pattern type="Registry">HKLM\Software\Microsoft\Office\16.0\Common\Migration\%OFFICEPROGRAM% [UpgradeVersion]</pattern>
+          <pattern type="Registry">HKLM\Software\Microsoft\Office\16.0\Common\Migration\%OFFICEPROGRAM% [Lang]</pattern>
+          <pattern type="Registry">HKLM\Software\Microsoft\Office\16.0\Common\LanguageResources [SKULanguage]</pattern>
+        </objectSet>
+      </include>
+      <addObjects>
+        <object>
+          <location type="Registry">HKLM\Software\Microsoft\Office\16.0\Common\Migration\%OFFICEPROGRAM% [UpgradeVersion]</location>
+          <attributes>DWORD</attributes>
+          <bytes>0E000000</bytes>
+        </object>
+        <object>
+          <location type="Registry">HKLM\Software\Microsoft\Office\16.0\Common\Migration\%OFFICEPROGRAM% [Lang]</location>
+          <attributes>DWORD</attributes>
+          <bytes>00000000</bytes>
+        </object>
+      </addObjects>
+      <contentModify script="MigSysHelper.ConvertToOfficeLangID('Registry','HKCU\Software\Microsoft\Office\15.0\Common\LanguageResources [SKULanguage]','HKLM\Software\Microsoft\Office\15.0\Common\LanguageResources [SKULanguage]')">
+        <objectSet>
+          <pattern type="Registry">HKLM\Software\Microsoft\Office\16.0\Common\Migration\%OFFICEPROGRAM% [Lang]</pattern>
+        </objectSet>
+      </contentModify>
+    </rules>
+    
+    
     <!-- Outlook Pst Rule -->
     <rules name="OutlookPstPab" context="User">
       <include>
@@ -2038,7 +2282,7 @@
                 </content>
                 <pattern type="File">%CSIDL_APPDATA%\Microsoft\Signatures\* [*]</pattern>
                 <pattern type="File">%CSIDL_APPDATA%\Microsoft\Templates\* [*]</pattern>
-                <pattern type="File">%CSIDL_APPDATA%\Microsoft\Stationary\* [*]</pattern>
+                <pattern type="File">%CSIDL_APPDATA%\Microsoft\Stationery\* [*]</pattern>
                 <pattern type="File">%CSIDL_LOCAL_APPDATA%\Microsoft\FORMS [frmcache.dat]</pattern>
                 <pattern type="File">%CSIDL_APPDATA%\Microsoft\Outlook [outcmd11.dat]</pattern>
                 <pattern type="File">%CSIDL_APPDATA%\Microsoft\Outlook [outcmd.dat]</pattern>
@@ -2730,7 +2974,7 @@
                 <pattern type="File">%CSIDL_LOCAL_APPDATA%\Microsoft\Office [*.officeUI]</pattern>
                 <pattern type="File">%CSIDL_APPDATA%\Microsoft\Signatures\* [*]</pattern>
                 <pattern type="File">%CSIDL_APPDATA%\Microsoft\Templates\* [*]</pattern>
-                <pattern type="File">%CSIDL_APPDATA%\Microsoft\Stationary\* [*]</pattern>
+                <pattern type="File">%CSIDL_APPDATA%\Microsoft\Stationery\* [*]</pattern>
                 <pattern type="File">%CSIDL_LOCAL_APPDATA%\Microsoft\FORMS [frmcache.dat]</pattern>
                 <pattern type="File">%CSIDL_APPDATA%\Microsoft\Outlook [outcmd11.dat]</pattern>
                 <pattern type="File">%CSIDL_APPDATA%\Microsoft\Outlook [outcmd.dat]</pattern>
@@ -6500,7 +6744,7 @@
     </role>
   </component>
 
-  <!-- Mozilla Firefox 3 -->
+  <!-- Mozilla Firefox -->
   <component context="UserAndSystem" type="Application">
     <displayName _locID="migapp.firefox3">Mozilla Firefox</displayName>
     <environment name="GlobalEnv"/>
@@ -6637,8 +6881,8 @@
       </rules>
     </role>
   </component>
-
-  <!-- Google Chrome -->
+  
+    <!-- Google Chrome -->
   <component context="UserAndSystem" type="Application">
     <displayName _locID="migapp.chrome1">Google Chrome</displayName>
     <environment name="GlobalEnv"/>
@@ -7169,7 +7413,7 @@
                 <pattern type="File">%CSIDL_APPDATA%\Microsoft\Office [*.officeUI]</pattern>
                 <pattern type="File">%CSIDL_LOCAL_APPDATA%\Microsoft\Office [*.officeUI]</pattern>
                 <pattern type="File">%CSIDL_APPDATA%\Microsoft\Templates\* [*]</pattern>
-                <pattern type="File">%CSIDL_APPDATA%\Microsoft\Stationary\* [*]</pattern>
+                <pattern type="File">%CSIDL_APPDATA%\Microsoft\Stationery\* [*]</pattern>
                 <pattern type="File">%CSIDL_APPDATA%\Microsoft\Outlook\* [*]</pattern>
                 <pattern type="File">%CSIDL_APPDATA%\Microsoft\Signatures\* [*]</pattern>
                 <pattern type="File">%CSIDL_LOCAL_APPDATA%\Microsoft\FORMS [frmcache.dat]</pattern>
@@ -7737,7 +7981,6 @@
           </rules>
           <rules name="Office15to15SettingsMigrate" />
           <rules name="Office15to15SettingsMigrate_x64" />
-		  <rules name="Office15to16SettingsUpgrade" />
         </role>
       </component>
 
@@ -7763,12 +8006,12 @@
             <include>
               <objectSet>
                 <pattern type="Registry">HKCU\Software\Microsoft\Office\15.0\Excel\* [*]</pattern>
+                <pattern type="Registry">HKCU\Software\Microsoft\Office\Excel\* [*]</pattern>
               </objectSet>
             </include>
           </rules>
           <rules name="Office15to15SettingsMigrate" />
           <rules name="Office15to15SettingsMigrate_x64" />
-		  <rules name="Office15to16SettingsUpgrade" />
         </role>
       </component>
 
@@ -7814,7 +8057,6 @@
           </rules>
           <rules name="Office15to15SettingsMigrate" />
           <rules name="Office15to15SettingsMigrate_x64" />
-		  <rules name="Office15to16SettingsUpgrade" />
         </role>
       </component>
 
@@ -7843,7 +8085,6 @@
           </rules>
           <rules name="Office15to15SettingsMigrate" />
           <rules name="Office15to15SettingsMigrate_x64" />
-		  <rules name="Office15to16SettingsUpgrade" />
         </role>
       </component>
 
@@ -7872,7 +8113,6 @@
           </rules>
           <rules name="Office15to15SettingsMigrate" />
           <rules name="Office15to15SettingsMigrate_x64" />
-		  <rules name="Office15to16SettingsUpgrade" />
         </role>
       </component>
 
@@ -7902,7 +8142,7 @@
                 <pattern type="File">%CSIDL_APPDATA%\Microsoft\Office [*.officeUI]</pattern>
                 <pattern type="File">%CSIDL_LOCAL_APPDATA%\Microsoft\Office [*.officeUI]</pattern>
                 <pattern type="File">%CSIDL_APPDATA%\Microsoft\Templates\* [*]</pattern>
-                <pattern type="File">%CSIDL_APPDATA%\Microsoft\Stationary\* [*]</pattern>
+                <pattern type="File">%CSIDL_APPDATA%\Microsoft\Stationery\* [*]</pattern>
                 <pattern type="File">%CSIDL_APPDATA%\Microsoft\Outlook\* [*]</pattern>
                 <pattern type="File">%CSIDL_APPDATA%\Microsoft\Signatures\* [*]</pattern>
                 <pattern type="File">%CSIDL_LOCAL_APPDATA%\Microsoft\FORMS [frmcache.dat]</pattern>
@@ -7950,7 +8190,6 @@
           </rules>
           <rules name="Office15to15SettingsMigrate" />
           <rules name="Office15to15SettingsMigrate_x64" />
-		  <rules name="Office15to16SettingsUpgrade" />
         </role>
       </component>
 
@@ -7986,7 +8225,6 @@
           </rules>
           <rules name="Office15to15SettingsMigrate" />
           <rules name="Office15to15SettingsMigrate_x64" />
-		  <rules name="Office15to16SettingsUpgrade" />
         </role>
       </component>
 
@@ -8021,7 +8259,6 @@
           </rules>
           <rules name="Office15to15SettingsMigrate" />
           <rules name="Office15to15SettingsMigrate_x64" />
-		  <rules name="Office15to16SettingsUpgrade" />
         </role>
       </component>
 
@@ -8058,7 +8295,6 @@
           </rules>
           <rules name="Office15to15SettingsMigrate" />
           <rules name="Office15to15SettingsMigrate_x64" />
-		  <rules name="Office15to16SettingsUpgrade" />
         </role>
       </component>
 
@@ -8177,7 +8413,6 @@
           </rules>
           <rules name="Office15to15SettingsMigrate" />
           <rules name="Office15to15SettingsMigrate_x64" />
-		  <rules name="Office15to16SettingsUpgrade" />
         </role>
       </component>
 
@@ -8219,7 +8454,6 @@
           </rules>
           <rules name="Office15to15SettingsMigrate" />
           <rules name="Office15to15SettingsMigrate_x64" />
-		  <rules name="Office15to16SettingsUpgrade" />
         </role>
       </component>
 
@@ -8294,11 +8528,9 @@
           </rules>
           <rules name="Office15to15SettingsMigrate" />
           <rules name="Office15to15SettingsMigrate_x64"/>
-		  <rules name="Office15to16SettingsUpgrade" />
         </role>
       </component>
 
-      
     </role>
   </component>
 
@@ -8468,6 +8700,7 @@
             </merge>
           </rules>
           <rules name="Office16to16SettingsMigrate" />
+          <rules name="Office16to16SettingsMigrate_x64" />
         </role>
       </component>
 
@@ -8493,10 +8726,12 @@
             <include>
               <objectSet>
                 <pattern type="Registry">HKCU\Software\Microsoft\Office\16.0\Excel\* [*]</pattern>
+                <pattern type="Registry">HKCU\Software\Microsoft\Office\Excel\* [*]</pattern>
               </objectSet>
             </include>
           </rules>
           <rules name="Office16to16SettingsMigrate" />
+          <rules name="Office16to16SettingsMigrate_x64" />
         </role>
       </component>
 
@@ -8541,6 +8776,7 @@
             </merge>
           </rules>
           <rules name="Office16to16SettingsMigrate" />
+          <rules name="Office16to16SettingsMigrate_x64" />
         </role>
       </component>
 
@@ -8568,6 +8804,7 @@
             </merge>
           </rules>
           <rules name="Office16to16SettingsMigrate" />
+          <rules name="Office16to16SettingsMigrate_x64" />
         </role>
       </component>
 
@@ -8595,6 +8832,7 @@
             </merge>
           </rules>
           <rules name="Office16to16SettingsMigrate" />
+          <rules name="Office16to16SettingsMigrate_x64" />
         </role>
       </component>
 
@@ -8624,7 +8862,7 @@
                 <pattern type="File">%CSIDL_APPDATA%\Microsoft\Office [*.officeUI]</pattern>
                 <pattern type="File">%CSIDL_LOCAL_APPDATA%\Microsoft\Office [*.officeUI]</pattern>
                 <pattern type="File">%CSIDL_APPDATA%\Microsoft\Templates\* [*]</pattern>
-                <pattern type="File">%CSIDL_APPDATA%\Microsoft\Stationary\* [*]</pattern>
+                <pattern type="File">%CSIDL_APPDATA%\Microsoft\Stationery\* [*]</pattern>
                 <pattern type="File">%CSIDL_APPDATA%\Microsoft\Outlook\* [*]</pattern>
                 <pattern type="File">%CSIDL_APPDATA%\Microsoft\Signatures\* [*]</pattern>
                 <pattern type="File">%CSIDL_LOCAL_APPDATA%\Microsoft\FORMS [frmcache.dat]</pattern>
@@ -8671,6 +8909,7 @@
             </merge>
           </rules>
           <rules name="Office16to16SettingsMigrate" />
+          <rules name="Office16to16SettingsMigrate_x64" />
         </role>
       </component>
 
@@ -8705,6 +8944,7 @@
             </merge>
           </rules>
           <rules name="Office16to16SettingsMigrate" />
+          <rules name="Office16to16SettingsMigrate_x64" />
         </role>
       </component>
 
@@ -8738,6 +8978,7 @@
             </merge>
           </rules>
           <rules name="Office16to16SettingsMigrate" />
+          <rules name="Office16to16SettingsMigrate_x64" />
         </role>
       </component>
 
@@ -8773,6 +9014,7 @@
             </merge>
           </rules>
           <rules name="Office16to16SettingsMigrate" />
+          <rules name="Office16to16SettingsMigrate_x64" />
         </role>
       </component>
 
@@ -8890,9 +9132,52 @@
             </merge>
           </rules>
           <rules name="Office16to16SettingsMigrate" />
+          <rules name="Office16to16SettingsMigrate_x64" />
         </role>
       </component>
 
+      <!-- Microsoft Office Lync 16 -->
+      <component type="Application" context="UserAndSystem">
+        <displayName _locID="migapp.lync16">Microsoft Office Lync 16</displayName>
+        <environment>
+          <variable name="OFFICEPROGRAM">
+            <text>Lync</text>
+          </variable>
+        </environment>
+        <role role="Settings">
+          <detection name="Lync16" />
+          <detection name="Lync16_x64" />
+          <rules context="User">
+            <destinationCleanup>
+              <objectSet>
+                <pattern type="Registry">HKCU\software\Microsoft\Office\16.0\Lync\Application\* [*]</pattern>
+              </objectSet>
+            </destinationCleanup>
+            <include>
+              <objectSet>
+                <pattern type="Registry">HKCU\software\Microsoft\Office\16.0\Lync\* [*]</pattern>
+                <pattern type="File">%CSIDL_LOCAL_APPDATA%\Microsoft\Lync\* [*]</pattern>
+              </objectSet>
+            </include>
+            <exclude>
+              <objectSet>
+                <!--
+              <enter information here>
+                    -->
+              </objectSet>
+            </exclude>
+            <merge script="MigXmlHelper.SourcePriority()">
+              <objectSet>
+                <pattern type="File">%CSIDL_LOCAL_APPDATA%\Microsoft\Lync\* [*]</pattern>
+              </objectSet>
+            </merge>
+          </rules>
+          <rules name="Office16to16SettingsMigrate" />
+          <rules name="Office16to16SettingsMigrate_x64" />
+        </role>
+      </component>
+
+      
       <!-- Microsoft Office Word 16 (32-bit) -->
       <component context="UserAndSystem" type="Application">
         <displayName _locID="migapp.office16word32bit">Microsoft Office Word 2016 (32-bit)</displayName>
@@ -8962,8 +9247,11 @@
             </unconditionalExclude>
           </rules>
           <rules name="Office16to16SettingsMigrate" />
+          <rules name="Office16to16SettingsMigrate_x64"/>
         </role>
       </component>
+    
 	</role>
 	</component>
+
   </migration>
