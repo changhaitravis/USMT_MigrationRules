@@ -1,0 +1,3 @@
+cd C:\USMT
+`loadstate \\gcasearch.finance.washington.edu\FOR_TERRA\MigData /ue:*\* /ui:NETID\[____] /i:MigDocs.xml /i:MigApp-with-Office2016.xml /i:Mig-SecureCRT.xml /i:MigApp-WinSCP-standalone.xml /v:13 /l:scanstate.log`
+

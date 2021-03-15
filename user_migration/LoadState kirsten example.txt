@@ -1,0 +1,1 @@
+loadstate \\gcasearch.finance.washington.edu\FOR_TERRA\MigData\kirsten5 /ue:*\* /ui:NETID\kirsten5 /i:MigDocs.xml /i:MigApp-with-Office2016.xml /i:Mig-SecureCRT.xml /i:MigApp-WinSCP-standalone.xml /v:13 /l:loadstate.log
