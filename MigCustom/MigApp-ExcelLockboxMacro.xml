@@ -1,0 +1,33 @@
+<migration urlid="http://www.microsoft.com/migration/1.0/migxmlext/MigApp-ExcelLockboxMacro">
+    <!-- Excel Macro Lock File Migration -->
+    <component context="System" type="Application">
+        <displayName>Lockbox Macro</displayName>
+
+        <role role="Settings">
+            <rules context="System">
+            <include>
+                <objectSet>
+                    <pattern type="File">%ProgramFiles(x86)%\Microsoft Office\Office16\XLSTART\* [*]</pattern>
+                    <pattern type="File">%ProgramFiles%\Microsoft Office\Office16\XLSTART\* [*]</pattern>
+					<pattern type="File">%ProgramFiles%\Microsoft Office\root\Office16\XLSTART\* [*]</pattern>
+                </objectSet>
+            </include>
+            <locationModify script="MigXmlHelper.RelativeMove('%ProgramFiles(x86)%\Microsoft Office\Office16\XLSTART', '%ProgramFiles%\Microsoft Office\root\Office16\XLSTART')">
+                <objectSet>
+                    <pattern type="File">%ProgramFiles(x86)%\Microsoft Office\Office16\XLSTART\* [*]</pattern>
+                </objectSet>
+            </locationModify>
+			<locationModify script="MigXmlHelper.RelativeMove('%ProgramFiles%\Microsoft Office\Office16\XLSTART', '%ProgramFiles%\Microsoft Office\root\Office16\XLSTART')">
+                <objectSet>
+                    <pattern type="File">%ProgramFiles%\Microsoft Office\Office16\XLSTART\* [*]</pattern>
+                </objectSet>
+            </locationModify>
+			<locationModify script="MigXmlHelper.RelativeMove('%ProgramFiles%\Microsoft Office\root\Office16\XLSTART', '%ProgramFiles%\Microsoft Office\root\Office16\XLSTART')">
+                <objectSet>
+                    <pattern type="File">%ProgramFiles%\Microsoft Office\root\Office16\XLSTART\* [*]</pattern>
+                </objectSet>
+            </locationModify>
+            </rules>
+        </role>
+    </component>
+</migration>
